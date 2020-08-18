@@ -4,9 +4,28 @@ nBlock_DelayBuffer::nBlock_DelayBuffer() {
     return;
 }
 
-void nBlock_DelayBuffer::triggerInput(uint32_t inputNumber, uint32_t value) {
-    if (inputNumber == 0) {
-        output[0] = value; // transfers the input value to the output
-        available[0] = 1;  // set the flag: we have data available in this output pipe
+void nBlock_DelayBuffer::triggerInput(nBlocks_Message message) {
+    if (message.inputNumber == 0) {
+		switch (message.dataType) {
+			case OUTPUT_TYPE_FLOAT:
+				output[0] = PackFloat(message.floatValue);
+				available[0] = 1;
+				break;
+
+			case OUTPUT_TYPE_INT:
+				output[0] = message.intValue;
+				available[0] = 1;
+				break;
+
+			case OUTPUT_TYPE_STRING:
+				output[0] = (uint32_t)message.stringValue;
+				available[0] = 1;
+				break;
+
+			case OUTPUT_TYPE_ARRAY:
+				output[0] = (uint32_t)message.pointerValue;
+				available[0] = 1;
+				break;
+		}
     }
 }

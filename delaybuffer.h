@@ -7,7 +7,7 @@
 class nBlock_DelayBuffer: public nBlockSimpleNode<1> {
 public:
     nBlock_DelayBuffer();
-    void triggerInput(uint32_t inputNumber, uint32_t value);
+    void triggerInput(nBlocks_Message message);
 };
 
 #endif
